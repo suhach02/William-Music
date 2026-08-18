@@ -1,0 +1,16 @@
+#system files Windows 
+Thumbs.db
+Desktop.ini
+.DS_Store 
+
+#repo and settings redactor
+.vscode/
+.idea/
+
+#secrets files with passwords and shit like that
+.env
+secrets.txt
+
+#logs and cach
+*.log
+*.tpm
