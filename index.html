@@ -26,6 +26,16 @@
 	<!-- resultat plads -->
 	<h3>færdig text</h3>
 	<p id="output">description...</p>
+	<script>
+        function makeListing() {
+            let title = document.getElementById('productTitle').value;
+            let size = document.getElementById('productSize').value;
+
+            let resultText = "productnavn🥒: " + title + "\nstørrelse🦣: " + size;
+
+            document.getElementById('output').innerText = resultText;
+        }
+    </script>
 </body>
 </html>
 
