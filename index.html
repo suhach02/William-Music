@@ -3,6 +3,73 @@
 <head>
      <meta charset="UTF-8">
      <title>annoncegenerator</title>
+<style>
+	body {
+		font-family: Arial, sans-serif;
+		background-color: #f4f6f9;
+		max-width: 500px;
+		margin: 20px auto;
+		padding:20px;
+	}
+
+	.card {
+		background: white;
+		padding: 25px;
+		border-radis: 12px;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	}
+
+	label {
+		font-weight: bold;
+		display:block;
+		margin-top: 15px;
+	}
+
+	input {
+	width: 100%;
+	padding: 10px;
+	margin-top: 5px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	box-sizzing: border box;
+
+	}
+
+	button {
+		width: 100%;
+		padding: 12px;
+		margin-top: 15px;
+		border: none;
+		border-radius: 6px;
+		font-weigth: bold
+		cursor: pointer;
+
+	}
+
+	.btn-generate {
+		background-color: #111111;
+		color: red;
+
+	}
+
+	.btn-copy {
+		background-color: #007bf;
+		color: black;
+
+	}
+
+	#output {
+		backgroung: #e9ecef;
+		padding: 15px;
+		border-radius: 6px;
+		white-space: pre-wrap;
+		font-family: monospace;
+		margin-top: 15px;
+
+	}
+	
+
+</style>
 </head>
 <body>
      
@@ -19,23 +86,29 @@
 	<br><br>
 	
 	<!-- knap -->
-	<button>generere</button>
-
+	<button onclick="makeListing()">generere</button>
 	<hr>
 
 	<!-- resultat plads -->
 	<h3>færdig text</h3>
 	<p id="output">description...</p>
-	<script>
+	<button class="btn-copy" onclick="copyText()">Kopier tekst</button>
+<script>
         function makeListing() {
             let title = document.getElementById('productTitle').value;
             let size = document.getElementById('productSize').value;
 
-            let resultText = "productnavn🥒: " + title + "\nstørrelse🦣: " + size;
+            let resultText = "productnavn🥒: " + title + "\n\n størrelse🦣:" + size;
 
             document.getElementById('output').innerText = resultText;
         }
-    </script>
+
+	function copyText() {
+		let textToCopy = document.getElementById('output').innerText;
+		navigator.clipboard.writeText(textToCopy);
+		alert("Teksten er copieret nahui!");
+	}
+</script>
 </body>
 </html>
 
