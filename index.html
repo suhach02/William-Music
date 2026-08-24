@@ -15,7 +15,7 @@
 	.card {
 		background: white;
 		padding: 25px;
-		border-radis: 12px;
+		border-radius: 12px;
 		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 	}
 
@@ -31,7 +31,7 @@
 	margin-top: 5px;
 	border: 1px solid #ccc;
 	border-radius: 6px;
-	box-sizzing: border box;
+	box-sizing: border box;
 
 	}
 
@@ -41,25 +41,61 @@
 		margin-top: 15px;
 		border: none;
 		border-radius: 6px;
-		font-weigth: bold
+		font-weight: bold;
 		cursor: pointer;
+		transition: all 0.2s ease; 
 
 	}
 
+	button:active {
+		transform: translateY(0);
+		
+	}
+
+	@keyframes fadeIn {
+	from{
+		opacity: 0;
+		transform: translateY(-10px);
+
+		}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+		}
+	}
+
+	.animate-show {
+		animation: fadeIn 0.4s ease-out forwards;
+	}
+
+
+	.btn-generate:hover {
+		background-color: #218838;
+		transform:translateY(-2px);
+		box-shadow: 0 4px rgba(40, 167, 69, 0.3);
+
+	}
+
+	.btn-copy:hover {
+		background-color: #0069d9;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 8px rgba (0, 123, 225, 0.3);
+
+	}
 	.btn-generate {
 		background-color: #111111;
-		color: red;
+		color: white;
 
 	}
 
 	.btn-copy {
-		background-color: #007bf;
+		background-color: #00969d;
 		color: black;
 
 	}
 
 	#output {
-		backgroung: #e9ecef;
+		background: #e9ecef;
 		padding: 15px;
 		border-radius: 6px;
 		white-space: pre-wrap;
@@ -86,28 +122,43 @@
 	<br><br>
 	
 	<!-- knap -->
-	<button onclick="makeListing()">generere</button>
+	<button class="btn-generate" onclick="makeListing()">generere</button>
+	<button class="btn-copy" onclick="copyText(this)">Kopier tekst</button>
 	<hr>
 
 	<!-- resultat plads -->
 	<h3>færdig text</h3>
 	<p id="output">description...</p>
-	<button class="btn-copy" onclick="copyText()">Kopier tekst</button>
 <script>
         function makeListing() {
-            let title = document.getElementById('productTitle').value;
-            let size = document.getElementById('productSize').value;
+        let title = document.getElementById('productTitle').value;
+        let size = document.getElementById('productSize').value;
+	let resultText = "productnavn🥒: " + title + "\n\n størrelse🦣:" + size;
+	let outputElement = document.getElementById('output');
+	
+	outputElement.innerText = resultText;
+	
 
-            let resultText = "productnavn🥒: " + title + "\n\n størrelse🦣:" + size;
+	outputElement.classList.remove('animate-show');
+	void outputElement.offsetWidth;
+	outputElement.classList.add('animate-show');
 
-            document.getElementById('output').innerText = resultText;
         }
 
-	function copyText() {
-		let textToCopy = document.getElementById('output').innerText;
-		navigator.clipboard.writeText(textToCopy);
-		alert("Teksten er copieret nahui!");
-	}
+		function copyText(buttonElement) {
+			let textToCopy = document.getElementById('output').innerText;
+			navigator.clipboard.writeText(textToCopy);
+
+			let originalText = buttonElement.innerText;
+			buttonElement.innerText = "Kopieret nahui🚀";
+			buttonElement.style.backgroundColor = "28a745";
+		}
+
+		setTimeout(function() {
+			buttonElement.innnerText = originalText;
+			buttonElement.style.backgroundColor = "";
+		}, 2000);
+	
 </script>
 </body>
 </html>
