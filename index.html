@@ -1,166 +1,185 @@
 <!DOCTYPE html>
-<html lang="dk">
+<html lang="en">
 <head>
-     <meta charset="UTF-8">
-     <title>annoncegenerator</title>
-<style>
-	body {
-		font-family: Arial, sans-serif;
-		background-color: #f4f6f9;
-		max-width: 500px;
-		margin: 20px auto;
-		padding:20px;
-	}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours Below</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-	.card {
-		background: white;
-		padding: 25px;
-		border-radius: 12px;
-		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-	}
+        body {
+            font-family: 'Segor UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c20, #15102a, #06040a);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
 
-	label {
-		font-weight: bold;
-		display:block;
-		margin-top: 15px;
-	}
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTN5ejZwczEwN3ZkdWg2ZTM2MDJub3g0aXNxNjU1ZGtoN21obThmMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mtOWQ2s0JQ2s0/giphy.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
 
-	input {
-	width: 100%;
-	padding: 10px;
-	margin-top: 5px;
-	border: 1px solid #ccc;
-	border-radius: 6px;
-	box-sizing: border box;
+        .container {
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
 
-	}
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: #2a2a2a;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border: 3px solid #1bd645;
+            box-shadow: 0 0 15px rgba(29, 185, 84, 0.4)
+        }
 
-	button {
-		width: 100%;
-		padding: 12px;
-		margin-top: 15px;
-		border: none;
-		border-radius: 6px;
-		font-weight: bold;
-		cursor: pointer;
-		transition: all 0.2s ease; 
-
-	}
-
-	button:active {
-		transform: translateY(0);
-		
-	}
-
-	@keyframes fadeIn {
-	from{
-		opacity: 0;
-		transform: translateY(-10px);
-
-		}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-		}
-	}
-
-	.animate-show {
-		animation: fadeIn 0.4s ease-out forwards;
-	}
-
-
-	.btn-generate:hover {
-		background-color: #218838;
-		transform:translateY(-2px);
-		box-shadow: 0 4px rgba(40, 167, 69, 0.3);
-
-	}
-
-	.btn-copy:hover {
-		background-color: hwb(36 11% 40%);
-		transform: translateY(-2px);
-		box-shadow: 0 4px 8px rgba (0, 123, 225, 0.3);
-
-	}
-	.btn-generate {
-		background-color: lab(1.37% 0 0);
-		color: white;
-
-	}
-
-	.btn-copy {
-		background-color: hsl(0, 0%, 0%);
-		color: #ffffff;
-
-	}
-
-	#output {
-		background: #e9ecef;
-		padding: 15px;
-		border-radius: 6px;
-		white-space: pre-wrap;
-		font-family: monospace;
-		margin-top: 15px;
-
-	}
-	
-
-</style>
-</head>
-<body>
-     
-	<h2>annoncegenerator📦</h2>
-	
-	<!-- navn title -->
-	<label>productnavn🥒:</label>
-	<input type="text" id="productTitle" placeholder="ecco soft7">
-	<br><br>
-
-	<!-- størrelse title -->
-	<label>størrelse🦣:</label>
-	<input type="text" id="productSize" placeholder="Eu 42">
-	<br><br>
-	
-	<!-- knap -->
-	<button class="btn-generate" onclick="makeListing()">generere</button>
-	<button class="btn-copy" onclick="copyText(this)">Kopier tekst</button>
-	<hr>
-
-	<!-- resultat plads -->
-	<h3>færdig text</h3>
-	<p id="output">description...</p>
-<script>
-        function makeListing() {
-        let title = document.getElementById('productTitle').value;
-        let size = document.getElementById('productSize').value;
-	let resultText = "productnavn🥒: " + title + "\n\n størrelse🦣:" + size;
-	let outputElement = document.getElementById('output');
-	
-	outputElement.innerText = resultText;
-	
-
-	outputElement.classList.remove('animate-show');
-	void outputElement.offsetWidth;
-	outputElement.classList.add('animate-show');
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
 
         }
 
-		function copyText(buttonElement) {
-			let textToCopy = document.getElementById('output').innerText;
-			navigator.clipboard.writeText(textToCopy);
+        p.bio {
+            font-size: 14px;
+            color: #b3b3b3;
+            margin-bottom: 25px;
+        }
 
-			let originalText = buttonElement.innerText;
-			buttonElement.innerText = "Kopieret nahui🚀";
-			buttonElement.style.backgroundColor = "28a745";
-		}
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-		setTimeout(function() {
-			buttonElement.innnerText = originalText;
-			buttonElement.style.backgroundColor = "";
-		}, 2000);
-	
-</script>
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .btn-icon {
+            width:24px;
+            height:24px;
+            margin-right: 15px;
+            object-fit: contain;
+        }
+
+        /* lys til knape*/
+        .link-btn.spotify:hover {
+            background: #1db954;
+            color: #000;
+            box-shadow: 0 4 8px rgba(29, 185, 84, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .link-btn.apple:hover {
+            background: #fc3c44;
+            color: #ffff;
+            box-shadow: 0 0 15px rgba(252, 60, 68, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .link-btn.youtube:hover {
+            background: #ff0000;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .link-btn.instagram:hover {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(220, 39, 67, 0.5);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .link-btn:active {
+            transform:translateY(0);
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #666;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+
+        <!-- avatarka -->
+         <div class"avatarka">🎶🐦‍⬛</div>
+         <h1>Yours Below</h1>
+         <p class="bio">Artist and producer 🎙️</p>
+
+         <!-- links til sites -->
+          <div class="links">
+            
+            <!--Spotify-->
+            <a href="https://open.spotify.com/artist/2g4wEfu1sKc6GdR9vd4qHT?si=e1fe13661cb74424" target="_blank" class="link-btn spotify">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1280px-Spotify_logo_without_text.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail" alt="Spotify" class="btn-icon">
+                Spotify
+            </a>
+            <!--Apple Music-->
+            <a href="https://music.apple.com/us/artist/yours-below/1826550444" target="_blank" class="link-btn apple music">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/3840px-Apple_Music_icon.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail" alt="Apple Music" class="btn-icon">
+                Apple Music
+            </a>
+            
+            <!--Youtube-->
+            <a href="https://youtube.com/channel/UCFb4aeLY8izyiEveSeGKjHA?si=GO0eI5kaC8K13y0Y" target="_blank" class="link-btn youtube">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/YouTube_social_white_circle_%282017%29.svg/960px-YouTube_social_white_circle_%282017%29.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail" alt="YouTube" class="btn-icon">
+                YouTube
+            </a>
+            <!--Instagramm-->
+            <a href="https://www.instagram.com/yoursbelow?igsi=MTFsZnVta2xkbGN0Zg==" target="_blank" class="link-btn instagram">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/960px-Instagram_logo_2022.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail" alt="Instagram" class="btn-icon">
+                Instagram
+            </a>
+          </div>
+
+          <footer>© 2026 Yours Below. Holly Shit records</footer>
+          <footer>created by AI and suhach</footer>
+    </div>
 </body>
 </html>
-
-	
