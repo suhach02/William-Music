@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    container_name: music_promo_site
+    ports:
+      - "8080:80"
+    volumes:
+    #hot reload for HTML CSS Js
+    - .:/usr/share/nginx/html
+    restart: unless-stopped
