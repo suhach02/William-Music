@@ -1,0 +1,82 @@
+const express = require('express');
+const { Pool } = require('pg');
+
+
+const app = express();
+const PORT = 3000;
+
+const pool = new Pool({
+    connectionString: 'postgres://postgres:secretpassword@localhost:5432/postgres'
+});
+
+async function initDB() {
+    try{
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS traffic_logs (
+            time TIMESTAMPTZ NOT NULL,
+            ip_address TEXT,
+            method TEXT,
+            endpoint TEXT,
+            status_code INT
+            );
+            `);
+
+            await pool.query(`
+               SELECT create_hypertable('traffic_logs', 'time', if_not_exists => TRUE);
+            `);
+            console.log("[DB] done!");
+    } catch (err) {
+        console.log("[DB ERROR] error initialization pizdec:", err.message);
+    }
+}
+
+app.use((req, res, next) => {
+    const start = Date.now();
+    
+    res.on('finish', async () => {
+        const ip = req.ip || req.socket.remoteAddress;
+        const method = req.method;
+        const url = req.originalUrl;
+        const status = res.statusCode;
+
+        try{
+            await pool.query(
+                'INSERT INTO traffic_logs(time, ip_address, method, endpoint, status_code) VALUES(NOW(), $1, $2, $3, $4)',
+                [ip, method, url, status]
+            );
+            console.log(`[DB WRITE LOGGED] ${method} ${url} -> ${status}`);
+        } catch (err) {
+            console.error("[DB WRITE ERROR]", err);
+        }
+    });
+
+    next();
+});
+
+
+app.get('/stats', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM traffic_logs ORDER BY time DESC LIMIT 10');
+        console.log("[STATS REQEST] fik linjer fra base", result.rowCount);
+        res.json({
+            message: "den sidste 10 reqest af traffic:",
+            total_records: result.rowCount,
+            logs: result.rows
+        });
+     } catch (err) {
+        console.error("[STATS ERROR]:", err.message);
+        res.status(500).json({ error: err.message });
+     }
+});
+
+
+app.get('/', (req, res) => {
+    res.send('det virker godt zaebis! alle information sendes til TimescaleDB.');
+});
+
+
+initDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`[SERVER] server run på http://localhost:${PORT}`);
+    });
+});
