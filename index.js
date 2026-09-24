@@ -1,8 +1,32 @@
 const express = require('express');
 const { Pool } = require('pg');
-
+const cors = require('cors');
 
 const app = express();
+app.use(express.json());
+app.use(cors());
+
+app.post('/api/track', async (res, req) => {
+    try{
+        //får ip address fra bruger med ngrok proxi
+        const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddresess;
+
+        //får information fra fronted
+        const { action, endpoint } = req.body;
+
+        await pool.query(
+            'INSERT INTO traffic_logs(time, ip_address, action, endpoint) VALUES(NOW(), $1, $2, $3)',
+            [clientIp, action || 'page_view', endpoint || 'home']
+        );
+
+        console.log(`[TRACKED] IP: ${clientIp} | Target: ${endpoint}`);
+        res.status(200).json({ status: 'logged' });
+    } catch (err) {
+        console.error('[TRACK ERROR]:', err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 const PORT = 3000;
 
 const pool = new Pool({
@@ -17,7 +41,8 @@ async function initDB() {
             ip_address TEXT,
             method TEXT,
             endpoint TEXT,
-            status_code INT
+            status_code INT,
+            action TEXT
             );
             `);
 
