@@ -144,11 +144,11 @@
 
             <!-- trecker -->
     <script>
-        const NGROK_URL = 'https://astride-doable-wife.ngrok-free.dev'
+        const NGROK_URL = 'https://astride-doable-wife.ngrok-free.dev';
         //trecker bruger når du kom ind hjemesiden
-        fetch(`{NGROK_URL}/api/track`, {
+        fetch(`${NGROK_URL}/api/track`, {
         method: 'POST',
-        headers:{ 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'click', endpoint: buttonName })
       }).catch(err => console.log('Click Tracking failed:', err)); 
     </script>
