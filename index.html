@@ -143,31 +143,15 @@
     </style>
 
             <!-- trecker -->
-  <script>
-  const NGROK_URL = 'https://astride-double-wife.ngrok-free.dev'; // Твоє актуальне посилання ngrok
-
-  // 1. Трекаємо відкриття сторінки
-  fetch(`${NGROK_URL}/api/track`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'page_view', endpoint: 'Main Page' })
-  }).catch(err => console.log('Tracking failed:', err));
-
-  // 2. Трекаємо кліки на кнопки
-  document.addEventListener('click', (event) => {
-      const link = event.target.closest('a');
-      if (link) {
-          // Чітко визначаємо назву кнопки перед використанням
-          const buttonName = link.textContent.trim() || link.href;
-          
-          fetch(`${NGROK_URL}/api/track`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ action: 'click', endpoint: buttonName })
-          }).catch(err => console.log('Click tracking failed:', err));
-      }
-  });
-</script>
+    <script>
+        const NGROK_URL = 'https://astride-doable-wife.ngrok-free.dev';
+        //trecker bruger når du kom ind hjemesiden
+        fetch('${NGROK_URL}/api/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'click', endpoint: 'Main Page' })
+      }).catch(err => console.log('Click Tracking failed:', err)); 
+    </script>
 
 
 </head>
