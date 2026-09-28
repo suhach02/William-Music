@@ -27,6 +27,10 @@ app.post('/api/track', async (res, req) => {
     }
 });
 
+app.set('trust proxy', true );
+
+const userIp = req.headers['x-forwarded-for'] || req.ip;
+
 const PORT = 3000;
 
 const pool = new Pool({
